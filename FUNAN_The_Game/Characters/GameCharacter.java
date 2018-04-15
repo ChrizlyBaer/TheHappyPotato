@@ -10,6 +10,7 @@ public abstract class GameCharacter {
 	private int maxJumpHeight;
 	private int maxLife;
 	private int currentLife;
+	
 
 	public GameCharacter(int x, int y, int height, int width, String[] characterImages, double maxSpeed,
 			int maxJumpWidth, int maxJumpHeight, int maxLife, int currentLife) {
