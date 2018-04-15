@@ -1,12 +1,14 @@
-import javax.sound.sampled.AudioInputStream;
-import javax.sound.sampled.AudioSystem;
-import javax.sound.sampled.Clip;
-import javax.swing.*;
-import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
 import java.net.URL;
+
+import javax.sound.sampled.AudioInputStream;
+import javax.sound.sampled.AudioSystem;
+import javax.sound.sampled.Clip;
+import javax.swing.JButton;
+import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 
 
 //NOTICE: Maybe I have to make the class Frame to implements ActionListener
@@ -22,6 +24,9 @@ public class Frame extends JFrame{
 	private static JButton close;
 
 	public static void main(String[] args) {
+		
+		MapReader myMapReader = new MapReader();
+		myMapReader.importXlsxMap("C:\\Users\\Chris\\workspace\\TheHappyPotato\\FUNAN_The_Game\\map\\Map Mocks\\Map_01.xlsx");
 		
 		//create an ActionListener 
 		ActionListener buttonListener = new ActionListener() {

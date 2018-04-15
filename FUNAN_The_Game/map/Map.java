@@ -1,5 +1,3 @@
-import javafx.stage.Window;
-
 public class Map {
 
 	int height;
