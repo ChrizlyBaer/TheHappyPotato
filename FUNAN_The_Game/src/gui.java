@@ -57,20 +57,19 @@ public class gui extends JPanel implements ActionListener{
 	boolean lockBackground = false;
 	
 	Map firstMap = null;
+	private WindowService myWindowService;
+	private MapReader myMapReader;
 	
 	public gui(){
 		setFocusable(true);
+		this.myWindowService = new WindowService(12);
+		this.myMapReader = new MapReader(myWindowService);
 		
 		//Load Images
 		
 		loadBackground();		
 		loadNan();
 		loadStage();
-		
-		
-		MapReader myMapReader = new MapReader();
-		myMapReader.importXlsxMap("C:\\Users\\Chris\\workspace\\TheHappyPotato\\FUNAN_The_Game\\map\\Map Mocks\\Map_01.xlsx");
-
 
 		addKeyListener(new ActionKeyListenerPublic()); 
 		
@@ -81,8 +80,7 @@ public class gui extends JPanel implements ActionListener{
 
 
 	private void loadStage() {
-		MapReader myMapReader = new MapReader();
-		List<Square> squares =  myMapReader.importXlsxMap("C:\\Users\\Chris\\workspace\\TheHappyPotato\\FUNAN_The_Game\\map\\Map Mocks\\Map_01.xlsx");	
+		List<Square> squares =  myMapReader.importXlsxMap("C:\\Users\\Fabian\\git\\TheHappyPotato\\FUNAN_The_Game\\map\\Map Mocks\\Map_01.xlsx");	
 		//System.out.println(squares);
 		this.firstMap = new Map(1000, 3000, new String[]{}, new String[]{}, squares);
 	}
@@ -157,12 +155,12 @@ public class gui extends JPanel implements ActionListener{
 			ImageIcon squareIcon = new ImageIcon(getClass().getResource(square.getImgPath()));
 
 			Image squareImgage = squareIcon.getImage();
-			squareImgage = getScaledImage(squareImgage, (int)(WindowService.getWindowHeight()/12), (int)(WindowService.getWindowHeight()/12));
+			squareImgage = getScaledImage(squareImgage, this.myWindowService.getSquareSize(), this.myWindowService.getSquareSize());
 			
 			//squareImgage.SCALE_FAST = ;
 			//stage2D.drawImage(square.getImgPath(), (int)xBackground, 0, null);
 			//System.out.println(square.getPosition().getColumn() );
-			stage2D.drawImage(squareImgage,  (int)((square.getPosition().getColumn() * (WindowService.getWindowHeight()/12))+ xBackground), (int)(square.getPosition().getRow() * (WindowService.getWindowHeight()/12)), null);
+			stage2D.drawImage(squareImgage,  (int)((square.getPosition().getColumn() * (this.myWindowService.getSquareSize())+ xBackground)), (int)(square.getPosition().getRow() * (this.myWindowService.getSquareSize())), null);
 		}
 		
 		if(iterartionRun++ > numberOfDrawingIterartions){

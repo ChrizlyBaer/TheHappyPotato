@@ -12,12 +12,18 @@ import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.omg.CosNaming.NamingContextExtPackage.StringNameHelper;
 
-public class MapReader {
+public class MapReader{
+	
+	private final WindowService MY_WINDOW_SERVICE;
+	
+	public MapReader(WindowService myWindowService){
+		this.MY_WINDOW_SERVICE = myWindowService;
+	}
 
 	public List<Square> importXlsxMap(String filePath) {
 		
 		List<Square> returnSquares = new ArrayList<Square>();
-		int squareSize = (int)WindowService.getWindowHeight() / 12;
+		int squareSize = this.MY_WINDOW_SERVICE.getSquareSize();
 	
 		
 		try {

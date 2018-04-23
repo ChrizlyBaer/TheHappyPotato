@@ -1,26 +1,37 @@
 import java.awt.Dimension;
 import java.awt.Toolkit;
 
-public abstract class WindowService {
-	
-	public static double[] getWindowSize()
-	{
+public class WindowService {
+
+	private int windowHeight;
+	private int windowWidth;
+	private final int numberOfSquares;
+
+	public WindowService(int numberOfSquares) {
+		this.numberOfSquares = numberOfSquares;
+		getWindowSize();
+	}
+
+	public void getWindowSize() {
 		Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
-		double width = screenSize.getWidth();
-		double height = screenSize.getHeight();
-		return new double[]{width, height};
+		this.windowWidth = (int) screenSize.getWidth();
+		this.windowHeight = 1000; // TODO: Have to change the return value dynamically on screen height.
+		//this.windowHeight = (int) screenSize.getHeight(); 	
+	}
+
+	public int getSquareSize(){
+		int squareSize = (this.windowHeight / numberOfSquares);
+		return squareSize;
 	}
 	
-	public static double getWindowHeight()
-	{
+	public int getWindowHeight() {
 		Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
 		return 1000;
-		//return screenSize.getHeight();
+		// return (int) screenSize.getHeight();
 	}
-	
-	public static double getWindowWidth()
-	{
+
+	public int getWindowWidth() {
 		Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
-		return screenSize.getWidth();
+		return (int) screenSize.getWidth();
 	}
 }
