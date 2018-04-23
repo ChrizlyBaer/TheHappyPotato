@@ -1,8 +1,11 @@
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Image;
+import java.awt.RenderingHints;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.image.BufferedImage;
+import java.util.List;
 
 import javax.swing.ImageIcon;
 import javax.swing.JPanel;
@@ -53,12 +56,21 @@ public class gui extends JPanel implements ActionListener{
 	int iterationPerMotionImage = numberOfDrawingIterartions / numberOfMotionImages;
 	boolean lockBackground = false;
 	
+	Map firstMap = null;
+	
 	public gui(){
 		setFocusable(true);
 		
 		//Load Images
+		
 		loadBackground();		
 		loadNan();
+		loadStage();
+		
+		
+		MapReader myMapReader = new MapReader();
+		myMapReader.importXlsxMap("C:\\Users\\Chris\\workspace\\TheHappyPotato\\FUNAN_The_Game\\map\\Map Mocks\\Map_01.xlsx");
+
 
 		addKeyListener(new ActionKeyListenerPublic()); 
 		
@@ -68,11 +80,20 @@ public class gui extends JPanel implements ActionListener{
 	}
 
 
+	private void loadStage() {
+		MapReader myMapReader = new MapReader();
+		List<Square> squares =  myMapReader.importXlsxMap("C:\\Users\\Chris\\workspace\\TheHappyPotato\\FUNAN_The_Game\\map\\Map Mocks\\Map_01.xlsx");	
+		//System.out.println(squares);
+		this.firstMap = new Map(1000, 3000, new String[]{}, new String[]{}, squares);
+	}
+
+
 	public void paint(Graphics g){
 		super.paint(g);
 		Graphics2D background2DOne = (Graphics2D)g;
 		Graphics2D background2DTwo = (Graphics2D)g;
 		Graphics2D gameCharecer2D = (Graphics2D)g;
+		//Graphics2D stage2D = (Graphics2D)g;
 		
 		//Draw the background
 		background2DOne.drawImage(backgroundImgage, (int)xBackground, 0, null);
@@ -128,6 +149,20 @@ public class gui extends JPanel implements ActionListener{
 			}else {
 				gameCharecer2D.drawImage(gameCharacterRunningBackwardImage_02, (int)gameCharacterX, (int)gameCharacterY, null);
 			}
+		}
+		
+		for (Square square : this.firstMap.getSquares()) {
+			Graphics2D stage2D = (Graphics2D)g;
+			//System.out.println(this.firstMap.getSquares().indexOf(square)+" || "+square.getPosition().getColumn() + " x " + square.getPosition().getRow());
+			ImageIcon squareIcon = new ImageIcon(getClass().getResource(square.getImgPath()));
+
+			Image squareImgage = squareIcon.getImage();
+			squareImgage = getScaledImage(squareImgage, (int)(WindowService.getWindowHeight()/12), (int)(WindowService.getWindowHeight()/12));
+			
+			//squareImgage.SCALE_FAST = ;
+			//stage2D.drawImage(square.getImgPath(), (int)xBackground, 0, null);
+			//System.out.println(square.getPosition().getColumn() );
+			stage2D.drawImage(squareImgage,  (int)((square.getPosition().getColumn() * (WindowService.getWindowHeight()/12))+ xBackground), (int)(square.getPosition().getRow() * (WindowService.getWindowHeight()/12)), null);
 		}
 		
 		if(iterartionRun++ > numberOfDrawingIterartions){
@@ -269,6 +304,18 @@ public class gui extends JPanel implements ActionListener{
 		ImageIcon gameCharecterStandingBackwardIcon_03 = new ImageIcon(getClass().getResource("Images/NanStandingBackward_03.png"));
 		gameCharacterStandingBackwardImage_03 = gameCharecterStandingBackwardIcon_03.getImage();
 		
+	}
+	
+	
+	private Image getScaledImage(Image srcImg, int w, int h){
+	    BufferedImage resizedImg = new BufferedImage(w, h, BufferedImage.TYPE_INT_ARGB);
+	    Graphics2D g2 = resizedImg.createGraphics();
+
+	    g2.setRenderingHint(RenderingHints.KEY_INTERPOLATION, RenderingHints.VALUE_INTERPOLATION_BILINEAR);
+	    g2.drawImage(srcImg, 0, 0, w, h, null);
+	    g2.dispose();
+
+	    return resizedImg;
 	}
 	
 }

@@ -24,10 +24,7 @@ public class Frame extends JFrame{
 	private static JButton close;
 
 	public static void main(String[] args) {
-		
-		MapReader myMapReader = new MapReader();
-		myMapReader.importXlsxMap("C:\\Users\\Chris\\workspace\\TheHappyPotato\\FUNAN_The_Game\\map\\Map Mocks\\Map_01.xlsx");
-		
+				
 		//create an ActionListener 
 		ActionListener buttonListener = new ActionListener() {
 			
